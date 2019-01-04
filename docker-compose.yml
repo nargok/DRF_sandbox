@@ -1,0 +1,26 @@
+version: "3"
+services:
+  db:
+    container_name: mysql_drf_sandbox
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: drf_sandbox
+      MYSQL_USER: django
+      MYSQL_PASSWORD: django
+  django:
+    container_name: drf_sandbox
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: django_docker_template
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/var/www/myproject
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
